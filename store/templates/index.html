@@ -22,7 +22,11 @@
             <div class="row mx-auto">
                 {%for product in products%}
                 <div class="card mx-auto mb-3" style="width: 18rem;">
+                    {% if product.image.url %}
                     <img class="card-img-top" src="{{product.image.url}}" alt="Card image cap">
+                    {% else %}
+                    <img class="card-img-top" src="{{product.image}}" alt="Card image cap">
+                    {% endif %}
                     <div class="card-body">
                         <h class="card-title">{{product.name}}</h>
                         <p class="card-text"><b>{{product.price}}</b></p>

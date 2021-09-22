@@ -150,7 +150,7 @@ MEDIA_ROOT = BASE_DIR
 LOCAL_HOST = env.str("LOCAL_HOST")
 AUTH_USER_MODEL = "users.User"
 LOGIN_URL = '/admin/login/'
-STATIC_ROOT = f"{BASE_DIR}/static"
+STATIC_ROOT = f"{BASE_DIR}/static/"
 
 AUTHENTICATION_BACKENDS = (
     "django.contrib.auth.backends.ModelBackend",  # To keep the Browsable API

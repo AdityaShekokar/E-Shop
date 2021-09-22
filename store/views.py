@@ -76,6 +76,3 @@ class ProductDocumentView(DocumentViewSet):
 #     return JsonResponse({
 #         'results': results
 #     })
-
-
-

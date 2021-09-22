@@ -11,10 +11,9 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 import os
 import re
+from pathlib import Path
 
 import environ
-
-from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -54,7 +53,7 @@ INSTALLED_APPS = [
     "django_elasticsearch_dsl",
     "users",
     "oauth2_provider",
-    "corsheaders"
+    "corsheaders",
 ]
 
 ELASTICSEARCH_DSL = {
@@ -96,10 +95,6 @@ WSGI_APPLICATION = "e_shop.wsgi.application"
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 DATABASES = {
-    "sqlite": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    },
     "default": {
         "ENGINE": "django.db.backends.mysql",
         "NAME": "e_shop",
@@ -173,4 +168,4 @@ OAUTH2_PROVIDER = {
     # access token expire time in seconds.
     "ACCESS_TOKEN_EXPIRE_SECONDS": 31556952,
 }
-
+HARD_DELETE_CASCADE = env("HARD_DELETE_CASCADE")

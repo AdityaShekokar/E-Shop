@@ -9,7 +9,7 @@ django-oauth-toolkit==1.5.0
 isort==5.9.3
 black==21.8b0
 django-environ==0.4.5
-django-oauth-toolkit
 django-cors-headers
 django-safedelete==1.0.0
 django-mysql==3.11.1
+gunicorn

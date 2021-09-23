@@ -48,7 +48,7 @@ class UniqueIds(models.Model):
 
     #  public id to share with the url,
     #  Used for REST routes and public displays
-    public_id = models.BigIntegerField(editable=False, unique=True)
+    public_id = models.BigIntegerField(editable=False, default=PublicId.create_public_id(), unique=True)
 
 
 def is_safedelete_cls(cls):

@@ -174,46 +174,46 @@ OAUTH2_PROVIDER = {
 }
 HARD_DELETE_CASCADE = env.str("HARD_DELETE_CASCADE")
 
-# LOGGING = {
-#     "version": 1,
-#     "disable_existing_loggers": False,
-#     "formatters": {
-#         "standard": {"format": "%(levelname)-8s [%(asctime)s] %(name)s: %(message)s"},
-#     },
-#     "handlers": {
-#         "file": {
-#             "level": "DEBUG",
-#             "class": "logging.handlers.TimedRotatingFileHandler",
-#             "filename": "logging_history.log",
-#             "when": "D",
-#             "backupCount": 30,
-#             "formatter": "standard",
-#         },
-#         "console": {
-#             "level": "DEBUG",
-#             "class": "logging.FileHandler",
-#             "filename": "logging_history.log",
-#             "formatter": "standard",
-#         },
-#     },
-#     "loggers": {
-#         "django": {
-#             "handlers": ["console", "file"],
-#             "level": "INFO",
-#             "propagate": True,
-#         },
-#         "store": {
-#             "handlers": ["console", "file"],
-#             "level": "INFO",
-#             "propagate": True,
-#         },
-#         "users": {
-#             "handlers": ["console", "file"],
-#             "level": "INFO",
-#             "propagate": True,
-#         }
-#     },
-# }
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "standard": {"format": "%(levelname)-8s [%(asctime)s] %(name)s: %(message)s"},
+    },
+    "handlers": {
+        "file": {
+            "level": "DEBUG",
+            "class": "logging.handlers.TimedRotatingFileHandler",
+            "filename": "logging_history.log",
+            "when": "D",
+            "backupCount": 30,
+            "formatter": "standard",
+        },
+        "console": {
+            "level": "DEBUG",
+            "class": "logging.FileHandler",
+            "filename": "logging_history.log",
+            "formatter": "standard",
+        },
+    },
+    "loggers": {
+        "django": {
+            "handlers": ["console", "file"],
+            "level": "INFO",
+            "propagate": True,
+        },
+        "store": {
+            "handlers": ["console", "file"],
+            "level": "INFO",
+            "propagate": True,
+        },
+        "users": {
+            "handlers": ["console", "file"],
+            "level": "INFO",
+            "propagate": True,
+        },
+    },
+}
 
 ## AWS SETUP FOR STATIC AND MEDIA FILES
 

@@ -172,7 +172,7 @@ OAUTH2_PROVIDER = {
     # access token expire time in seconds.
     "ACCESS_TOKEN_EXPIRE_SECONDS": 31556952,
 }
-HARD_DELETE_CASCADE = env("HARD_DELETE_CASCADE")
+HARD_DELETE_CASCADE = env.str("HARD_DELETE_CASCADE")
 
 # LOGGING = {
 #     "version": 1,

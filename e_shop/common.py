@@ -48,7 +48,9 @@ class UniqueIds(models.Model):
 
     #  public id to share with the url,
     #  Used for REST routes and public displays
-    public_id = models.BigIntegerField(editable=False, default=PublicId.create_public_id(), unique=True)
+    public_id = models.BigIntegerField(
+        editable=False, default=PublicId.create_public_id, unique=True
+    )
 
 
 def is_safedelete_cls(cls):
@@ -320,8 +322,7 @@ def validate_url_value(public_id, key_name):
             int(public_id)
             if public_id == "0":
                 raise ValidationError(
-                    {key_name: "PUBLIC ID CAN NOT BE ZERO"},
-                    HTTPStatus.BAD_REQUEST
+                    {key_name: "PUBLIC ID CAN NOT BE ZERO"}, HTTPStatus.BAD_REQUEST
                 )
             elif len(str(public_id)) > 17:
                 raise ValidationError(
@@ -362,7 +363,12 @@ class CustomPermissions(BasePermission):
         if m in required_alternate_scopes:
             for alt in required_alternate_scopes[m]:
                 user_scopes = list(
-                    {scope.name for role in request.user.user_roles.all() for scope in role.role_scopes.all()})
+                    {
+                        scope.name
+                        for role in request.user.user_roles.all()
+                        for scope in role.role_scopes.all()
+                    }
+                )
                 for alt_scope in alt:
                     flag = False
                     if alt_scope in user_scopes:
@@ -370,3 +376,19 @@ class CustomPermissions(BasePermission):
             return flag
         else:
             return False
+
+
+# custom_storages.py
+from django.conf import settings
+from storages.backends.s3boto3 import S3Boto3Storage
+
+
+class StaticStorage(S3Boto3Storage):
+    default_acl = "public-read"
+    location = settings.STATICFILES_LOCATION
+
+
+class MediaStorage(S3Boto3Storage):
+    location = settings.MEDIAFILES_LOCATION
+    default_acl = "public-read"
+    file_overwrite = False

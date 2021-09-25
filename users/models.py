@@ -14,7 +14,9 @@ class User(AbstractUser, SafeDeleteModel, UniqueIds):
 
 class Roles(CreateUpdateDate, UniqueIds, SafeDeleteModel):
     name = models.CharField(max_length=20, unique=True)
-    user = models.ManyToManyField(User, db_table="user_and_roles", related_name="user_roles")
+    user = models.ManyToManyField(
+        User, db_table="user_and_roles", related_name="user_roles"
+    )
 
     def __str__(self):
         return self.name
@@ -25,7 +27,9 @@ class Roles(CreateUpdateDate, UniqueIds, SafeDeleteModel):
 
 class Scopes(CreateUpdateDate, UniqueIds, SafeDeleteModel):
     name = models.CharField(max_length=20, unique=True)
-    roles = models.ManyToManyField(Roles, db_table="scopes_and_roles", related_name="role_scopes")
+    roles = models.ManyToManyField(
+        Roles, db_table="scopes_and_roles", related_name="role_scopes"
+    )
 
     def __str__(self):
         return self.name

@@ -8,9 +8,11 @@ urlpatterns = [
     path("logout/", views.UserLogOutView.as_view({"get": "logout"})),
     path("roles/", views.UserView.as_view({"get": "role_list", "post": "create_role"})),
     path(
-        "scopes/", views.UserView.as_view({"get": "scope_list", "post": "create_scope"}),
+        "scopes/",
+        views.UserView.as_view({"get": "scope_list", "post": "create_scope"}),
     ),
     path(
-        "scopes/<str:scope_public_id>/", views.UserView.as_view({"patch": "scope_update"}),
-    )
+        "scopes/<str:scope_public_id>/",
+        views.UserView.as_view({"patch": "scope_update"}),
+    ),
 ]

@@ -13,18 +13,19 @@ from oauth2_provider.contrib.rest_framework import (
 )
 from oauth2_provider.models import AccessToken, Application
 from rest_framework import viewsets
-from rest_framework.exceptions import APIException, ValidationError, NotFound
+from rest_framework.exceptions import APIException, NotFound, ValidationError
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from e_shop.common import validate_url_value, CustomPermissions
+from e_shop.common import CustomPermissions, validate_url_value
 from e_shop.settings import LOCAL_HOST
 from users.models import Roles, Scopes, User
 from users.serializers import (
     LoginSerializer,
     RegistrationSerializer,
     RoleSerializer,
-    ScopeSerializer, ScopeUpdateSerializer,
+    ScopeSerializer,
+    ScopeUpdateSerializer,
 )
 
 
@@ -64,9 +65,7 @@ class UserView(viewsets.ViewSet):
                 }
                 response = requests.post(LOCAL_HOST + "/o/token/", data=body_param)
                 if response.status_code != 200:
-                    raise APIException(
-                        response.json()
-                    )
+                    raise APIException(response.json())
                 return Response(response.json())
 
     def create_role(self, req):
@@ -120,7 +119,10 @@ class UserView(viewsets.ViewSet):
 class UserLogOutView(viewsets.ViewSet):
     authentication_classes = [OAuth2Authentication]
     permission_classes = [TokenMatchesOASRequirements, CustomPermissions]
-    required_alternate_scopes = {"POST": [["create"]], "GET": [["create"], ["custom_scope1", "custom_scope2"]]}
+    required_alternate_scopes = {
+        "POST": [["create"]],
+        "GET": [["create"], ["custom_scope1", "custom_scope2"]],
+    }
 
     def logout(self, req):
         token = req.auth.token

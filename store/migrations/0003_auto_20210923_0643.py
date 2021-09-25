@@ -6,18 +6,22 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('store', '0002_auto_20210922_1211'),
+        ("store", "0002_auto_20210922_1211"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='category',
-            name='public_id',
-            field=models.BigIntegerField(default=3698334677521032, editable=False, unique=True),
+            model_name="category",
+            name="public_id",
+            field=models.BigIntegerField(
+                default=3698334677521032, editable=False, unique=True
+            ),
         ),
         migrations.AlterField(
-            model_name='product',
-            name='public_id',
-            field=models.BigIntegerField(default=3698334677521032, editable=False, unique=True),
+            model_name="product",
+            name="public_id",
+            field=models.BigIntegerField(
+                default=3698334677521032, editable=False, unique=True
+            ),
         ),
     ]

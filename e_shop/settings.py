@@ -9,12 +9,12 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
+import logging
 import os
 import re
 from pathlib import Path
 
 import environ
-import logging
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     "users",
     "oauth2_provider",
     "corsheaders",
+    "storages",
 ]
 
 ELASTICSEARCH_DSL = {
@@ -140,20 +141,20 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
-STATIC_URL = "/static/"
-import os
-
-STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
+# STATIC_URL = "/static/"
+# import os
+#
+# STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-MEDIA_URL = "/images/"
-MEDIA_ROOT = BASE_DIR
+# MEDIA_URL = "/images/"
+# MEDIA_ROOT = BASE_DIR
 LOCAL_HOST = env.str("LOCAL_HOST")
 AUTH_USER_MODEL = "users.User"
-LOGIN_URL = '/admin/login/'
+LOGIN_URL = "/admin/login/"
 
 AUTHENTICATION_BACKENDS = (
     "django.contrib.auth.backends.ModelBackend",  # To keep the Browsable API
@@ -173,43 +174,76 @@ OAUTH2_PROVIDER = {
 }
 HARD_DELETE_CASCADE = env("HARD_DELETE_CASCADE")
 
-LOGGING = {
-    "version": 1,
-    "disable_existing_loggers": False,
-    "formatters": {
-        "standard": {"format": "%(levelname)-8s [%(asctime)s] %(name)s: %(message)s"},
-    },
-    "handlers": {
-        "file": {
-            "level": "DEBUG",
-            "class": "logging.handlers.TimedRotatingFileHandler",
-            "filename": "logging_history.log",
-            "when": "D",
-            "backupCount": 30,
-            "formatter": "standard",
-        },
-        "console": {
-            "level": "DEBUG",
-            "class": "logging.FileHandler",
-            "filename": "logging_history.log",
-            "formatter": "standard",
-        },
-    },
-    "loggers": {
-        "django": {
-            "handlers": ["console", "file"],
-            "level": "INFO",
-            "propagate": True,
-        },
-        "store": {
-            "handlers": ["console", "file"],
-            "level": "INFO",
-            "propagate": True,
-        },
-        "users": {
-            "handlers": ["console", "file"],
-            "level": "INFO",
-            "propagate": True,
-        }
-    },
-}
+# LOGGING = {
+#     "version": 1,
+#     "disable_existing_loggers": False,
+#     "formatters": {
+#         "standard": {"format": "%(levelname)-8s [%(asctime)s] %(name)s: %(message)s"},
+#     },
+#     "handlers": {
+#         "file": {
+#             "level": "DEBUG",
+#             "class": "logging.handlers.TimedRotatingFileHandler",
+#             "filename": "logging_history.log",
+#             "when": "D",
+#             "backupCount": 30,
+#             "formatter": "standard",
+#         },
+#         "console": {
+#             "level": "DEBUG",
+#             "class": "logging.FileHandler",
+#             "filename": "logging_history.log",
+#             "formatter": "standard",
+#         },
+#     },
+#     "loggers": {
+#         "django": {
+#             "handlers": ["console", "file"],
+#             "level": "INFO",
+#             "propagate": True,
+#         },
+#         "store": {
+#             "handlers": ["console", "file"],
+#             "level": "INFO",
+#             "propagate": True,
+#         },
+#         "users": {
+#             "handlers": ["console", "file"],
+#             "level": "INFO",
+#             "propagate": True,
+#         }
+#     },
+# }
+
+## AWS SETUP FOR STATIC AND MEDIA FILES
+
+USE_S3 = env.str("USE_S3") == "TRUE"
+
+if USE_S3:
+    AWS_ACCESS_KEY_ID = env.str("AWS_ACCESS_KEY_ID")
+    AWS_SECRET_ACCESS_KEY = env.str("AWS_SECRET_ACCESS_KEY")
+    AWS_STORAGE_BUCKET_NAME = env.str("AWS_STORAGE_BUCKET_NAME")
+    AWS_S3_CUSTOM_DOMAIN = "%s.s3.amazonaws.com" % AWS_STORAGE_BUCKET_NAME
+    AWS_S3_OBJECT_PARAMETERS = {
+        "CacheControl": "max-age=86400",
+    }
+    STATICFILES_LOCATION = "static"
+
+    STATICFILES_DIRS = [
+        os.path.join(BASE_DIR, "uploads"),
+    ]
+    STATIC_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, STATICFILES_LOCATION)
+    STATICFILES_STORAGE = "e_shop.common.StaticStorage"
+
+    ## aws media
+
+    MEDIAFILES_LOCATION = "media"
+    MEDIA_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/{MEDIAFILES_LOCATION}/"
+    DEFAULT_FILE_STORAGE = "e_shop.common.MediaStorage"
+    AWS_S3_REGION_NAME = "ap-south-1"
+    AWS_S3_ADDRESSING_STYLE = "virtual"
+else:
+    STATIC_URL = "/staticfiles/"
+    STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+    MEDIA_URL = "/mediafiles/"
+    MEDIA_ROOT = os.path.join(BASE_DIR, "mediafiles")

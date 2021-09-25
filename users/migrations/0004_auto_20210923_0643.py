@@ -6,23 +6,29 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('users', '0003_auto_20210922_1211'),
+        ("users", "0003_auto_20210922_1211"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='roles',
-            name='public_id',
-            field=models.BigIntegerField(default=3698334677521032, editable=False, unique=True),
+            model_name="roles",
+            name="public_id",
+            field=models.BigIntegerField(
+                default=3698334677521032, editable=False, unique=True
+            ),
         ),
         migrations.AlterField(
-            model_name='scopes',
-            name='public_id',
-            field=models.BigIntegerField(default=3698334677521032, editable=False, unique=True),
+            model_name="scopes",
+            name="public_id",
+            field=models.BigIntegerField(
+                default=3698334677521032, editable=False, unique=True
+            ),
         ),
         migrations.AlterField(
-            model_name='user',
-            name='public_id',
-            field=models.BigIntegerField(default=3698334677521032, editable=False, unique=True),
+            model_name="user",
+            name="public_id",
+            field=models.BigIntegerField(
+                default=3698334677521032, editable=False, unique=True
+            ),
         ),
     ]

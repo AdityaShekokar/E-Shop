@@ -13,3 +13,5 @@ django-cors-headers
 django-safedelete==1.0.0
 django-mysql==3.11.1
 gunicorn
+boto3
+django-storages

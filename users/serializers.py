@@ -18,7 +18,9 @@ class RegistrationSerializer(serializers.ModelSerializer):
         fields = ["firstName", "lastName", "email", "passWord", "role"]
 
     def create(self, data):
-        data.update({"username": data.get("email"), "public_id": PublicId.create_public_id()})
+        data.update(
+            {"username": data.get("email"), "public_id": PublicId.create_public_id()}
+        )
         roles = data.pop("role")
         user = User.objects.create_user(**data)
         for role in roles:
@@ -38,7 +40,9 @@ class RegistrationSerializer(serializers.ModelSerializer):
                 instances.append(role)
             return instances
         except Roles.DoesNotExist:
-            raise serializers.ValidationError({"error": f"Role '{query_filter}' does not exist."})
+            raise serializers.ValidationError(
+                {"error": f"Role '{query_filter}' does not exist."}
+            )
 
 
 class LoginSerializer(serializers.Serializer):

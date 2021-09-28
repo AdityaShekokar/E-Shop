@@ -33,7 +33,7 @@ def index(request):
 
 
 def search(request):
-    rest_search_url = LOCAL_HOST + f"/search/?search={request.GET.get('search')}"
+    rest_search_url = LOCAL_HOST + f"/store/search/?search={request.GET.get('search')}"
     response = requests.get(rest_search_url)
     return render(
         request,

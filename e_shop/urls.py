@@ -21,7 +21,7 @@ from e_shop import settings
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("store/", include("store.urls")),
+    path("", include("store.urls")),
     path("user/", include("users.urls")),
     path("o/", include("oauth2_provider.urls", namespace="oauth2_provider")),
 ] + static(settings.MEDIA_URL)
